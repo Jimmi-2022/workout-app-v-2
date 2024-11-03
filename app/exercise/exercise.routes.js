@@ -8,6 +8,12 @@ import {
 	getExercises,
 	updateExercise
 } from './exercise.controller.js'
+import { createNewExerciseLog } from './log/exercise-log.controller.js'
+import { getExerciseLog } from './log/get-exercise-log.controller.js'
+import {
+	completeExerciseLog,
+	updateExerciseLogTime
+} from './log/update-exercise-log.controller.js'
 
 const router = express.Router()
 
@@ -17,5 +23,14 @@ router
 	.route('/:id')
 	.put(protect, updateExercise)
 	.delete(protect, deleteExercise)
+
+router
+	.route('/log/:id')
+	.post(protect, createNewExerciseLog)
+	.get(protect, getExerciseLog)
+
+router.route('/complete/:id').put(protect, completeExerciseLog)
+
+router.route('/time/:id').patch(protect, updateExerciseLogTime)
 
 export default router
