@@ -55,7 +55,7 @@ export const deleteExercise = asyncHandler(async (req, res) => {
 			}
 		})
 
-		res.json({ message: `Exercise deleted!` })
+		res.json({ message: 'Exercise deleted!' })
 	} catch (error) {
 		res.status(404)
 		throw new Error('Exercise not found!')
@@ -67,7 +67,9 @@ export const deleteExercise = asyncHandler(async (req, res) => {
 // @access  Private
 export const getExercises = asyncHandler(async (req, res) => {
 	const exercises = await prisma.exercise.findMany({
-		orderBy: { createdAt: 'asc' }
+		orderBy: {
+			createdAt: 'desc'
+		}
 	})
 	res.json(exercises)
 })

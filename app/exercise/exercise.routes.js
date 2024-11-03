@@ -29,8 +29,8 @@ router
 	.post(protect, createNewExerciseLog)
 	.get(protect, getExerciseLog)
 
-router.route('/complete/:id').put(protect, completeExerciseLog)
+router.route('/log/time/:id').put(protect, updateExerciseLogTime)
 
-router.route('/time/:id').patch(protect, updateExerciseLogTime)
+router.route('/log/complete/:id').patch(protect, completeExerciseLog)
 
 export default router

@@ -2,7 +2,9 @@ import asyncHandler from 'express-async-handler'
 
 import { prisma } from '../../prisma.js'
 
-// @desc    Get exercise log
+import { addPrevValues } from './add-prev-values.util.js'
+
+// @desc    Get exerciseLog
 // @route   GET /api/exercises/log/:id
 // @access  Private
 export const getExerciseLog = asyncHandler(async (req, res) => {
@@ -12,13 +14,17 @@ export const getExerciseLog = asyncHandler(async (req, res) => {
 		},
 		include: {
 			exercise: true,
-			times: true
+			times: {
+				orderBy: {
+					id: 'asc'
+				}
+			}
 		}
 	})
 
 	if (!exerciseLog) {
 		res.status(404)
-		throw new Error('Exercise log not found!')
+		throw new Error('Exercise Log not found!')
 	}
 
 	const prevExerciseLog = await prisma.exerciseLog.findFirst({
@@ -34,10 +40,6 @@ export const getExerciseLog = asyncHandler(async (req, res) => {
 			times: true
 		}
 	})
-
-	console.log(prevExerciseLog)
-
-	return
 
 	res.json({
 		...exerciseLog,
